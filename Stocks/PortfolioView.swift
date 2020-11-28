@@ -20,45 +20,44 @@ struct PortfolioView: View {
                         Text("271.98").font(.title).foregroundColor(.primary).bold()
                     }
                     ForEach(0..<3){_ in
-                        HStack{
-                            NavigationLink(destination: DetailView(ticker: "Apple")){
-                                VStack(alignment: .leading)
-                                {
-                                    Text("TICKER").font(.title2).bold()
-                                    Text("subtitle").foregroundColor(.secondary)
-                                }
-                                Spacer()
-                                VStack(alignment: .trailing){
-                                    Text("1762.8").font(.title2).bold()
-                                    HStack{
-                                        Text("symbol")
+                        NavigationLink(destination: DetailView(ticker: "aapl", Data: DetailVM(ticker: "aapl"))){
+                                HStack{
+                                    VStack(alignment: .leading)
+                                    {
+                                        Text("TICKER").font(.title2).bold()
                                         Text("subtitle").foregroundColor(.secondary)
+                                    }
+                                    Spacer()
+                                    VStack(alignment: .trailing){
+                                        Text("1762.8").font(.title2).bold()
+                                        HStack{
+                                            Text("symbol")
+                                            Text("subtitle").foregroundColor(.secondary)
+                                        }
                                     }
                                 }
                             }
-                        }
                     }.onMove(perform: moveStocks)
                 }
+            
                 Section(header: Text("Favorites")){
                     ForEach(0..<3){_ in
+                       NavigationLink(destination: DetailView(ticker: "pbt",  Data: DetailVM(ticker: "pbt"))){
                         HStack{
-                            NavigationLink(destination: DetailView(ticker: "Apple")){
-                                VStack(alignment: .leading)
-                                {
-                                    Text("TICKER").font(.title2).bold()
+                            VStack(alignment: .leading){
+                                Text("TICKER").font(.title2).bold()
+                                Text("subtitle").foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            VStack(alignment: .trailing){
+                                Text("1762.8").font(.title2).bold()
+                                HStack{
+                                    Text("symbol")
                                     Text("subtitle").foregroundColor(.secondary)
                                 }
-                                Spacer()
-                                VStack(alignment: .trailing){
-                                    Text("1762.8").font(.title2).bold()
-                                    HStack{
-                                        Text("symbol")
-                                        Text("subtitle").foregroundColor(.secondary)
-                                    }
-                                }
                             }
-                    
                         }
+                       }
                     }
                     .onMove(perform: moveStocks)
                     .onDelete(perform: deleteStocks)
