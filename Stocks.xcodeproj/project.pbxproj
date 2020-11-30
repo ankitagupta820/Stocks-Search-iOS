@@ -18,13 +18,15 @@
 		F0A227FF256FA5E500DA3023 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A227FE256FA5E500DA3023 /* DetailView.swift */; };
 		F0A2280925700D6000DA3023 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2280825700D6000DA3023 /* Alamofire */; };
 		F0A2280F25700DBD00DA3023 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2280E25700DBD00DA3023 /* SwiftyJSON */; };
-		F0A22815257011AF00DA3023 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A22814257011AF00DA3023 /* Util.swift */; };
-		F0A2281A2570151900DA3023 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228192570151900DA3023 /* Portfolio.swift */; };
 		F0A2281F257020D600DA3023 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A2281E257020D600DA3023 /* Constants.swift */; };
 		F0A2282A2570393700DA3023 /* DefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228292570393700DA3023 /* DefaultsStorage.swift */; };
 		F0A228322571AB8F00DA3023 /* DetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228312571AB8F00DA3023 /* DetailVM.swift */; };
 		F0A2283D25721E7A00DA3023 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2283C25721E7A00DA3023 /* Kingfisher */; };
 		F0A2283F25721E7A00DA3023 /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2283E25721E7A00DA3023 /* KingfisherSwiftUI */; };
+		F0A22848257347F800DA3023 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = F0A22847257347F800DA3023 /* Toast */; };
+		F0A228532573589500DA3023 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228522573589500DA3023 /* Toast.swift */; };
+		F0A228582574532D00DA3023 /* PortfolioVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228572574532D00DA3023 /* PortfolioVM.swift */; };
+		F0A2289A257497A800DA3023 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A22899257497A800DA3023 /* Loading.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,11 +62,12 @@
 		F0A227F1256F90C000DA3023 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		F0A227F9256F911400DA3023 /* ViewControllerResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerResolver.swift; sourceTree = "<group>"; };
 		F0A227FE256FA5E500DA3023 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		F0A22814257011AF00DA3023 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		F0A228192570151900DA3023 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
 		F0A2281E257020D600DA3023 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F0A228292570393700DA3023 /* DefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsStorage.swift; sourceTree = "<group>"; };
 		F0A228312571AB8F00DA3023 /* DetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVM.swift; sourceTree = "<group>"; };
+		F0A228522573589500DA3023 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		F0A228572574532D00DA3023 /* PortfolioVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioVM.swift; sourceTree = "<group>"; };
+		F0A22899257497A800DA3023 /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +78,7 @@
 				F0A2283D25721E7A00DA3023 /* Kingfisher in Frameworks */,
 				F0A2280F25700DBD00DA3023 /* SwiftyJSON in Frameworks */,
 				F0A2283F25721E7A00DA3023 /* KingfisherSwiftUI in Frameworks */,
+				F0A22848257347F800DA3023 /* Toast in Frameworks */,
 				F0A2280925700D6000DA3023 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,13 +124,13 @@
 			isa = PBXGroup;
 			children = (
 				F0A228132570119D00DA3023 /* Utils */,
-				F0A227F0256F909000DA3023 /* SearchBar */,
 				F0A227C1256F799C00DA3023 /* StocksApp.swift */,
 				F0A227C3256F799C00DA3023 /* PortfolioView.swift */,
+				F0A227FE256FA5E500DA3023 /* DetailView.swift */,
 				F0A227C5256F799E00DA3023 /* Assets.xcassets */,
 				F0A227CA256F799E00DA3023 /* Info.plist */,
+				F0A227F0256F909000DA3023 /* SearchBar */,
 				F0A227C7256F799E00DA3023 /* Preview Content */,
-				F0A227FE256FA5E500DA3023 /* DetailView.swift */,
 			);
 			path = Stocks;
 			sourceTree = "<group>";
@@ -169,11 +173,12 @@
 		F0A228132570119D00DA3023 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				F0A22814257011AF00DA3023 /* Util.swift */,
-				F0A228192570151900DA3023 /* Portfolio.swift */,
-				F0A2281E257020D600DA3023 /* Constants.swift */,
 				F0A228292570393700DA3023 /* DefaultsStorage.swift */,
 				F0A228312571AB8F00DA3023 /* DetailVM.swift */,
+				F0A228572574532D00DA3023 /* PortfolioVM.swift */,
+				F0A2281E257020D600DA3023 /* Constants.swift */,
+				F0A228522573589500DA3023 /* Toast.swift */,
+				F0A22899257497A800DA3023 /* Loading.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 				F0A2280E25700DBD00DA3023 /* SwiftyJSON */,
 				F0A2283C25721E7A00DA3023 /* Kingfisher */,
 				F0A2283E25721E7A00DA3023 /* KingfisherSwiftUI */,
+				F0A22847257347F800DA3023 /* Toast */,
 			);
 			productName = Stocks;
 			productReference = F0A227BE256F799C00DA3023 /* Stocks.app */;
@@ -275,6 +281,7 @@
 				F0A2280725700D6000DA3023 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				F0A2280D25700DBD00DA3023 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				F0A2283B25721E7A00DA3023 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				F0A22846257347F800DA3023 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = F0A227BF256F799C00DA3023 /* Products */;
 			projectDirPath = "";
@@ -319,14 +326,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0A227FA256F911400DA3023 /* ViewControllerResolver.swift in Sources */,
-				F0A22815257011AF00DA3023 /* Util.swift in Sources */,
 				F0A2282A2570393700DA3023 /* DefaultsStorage.swift in Sources */,
 				F0A227FF256FA5E500DA3023 /* DetailView.swift in Sources */,
+				F0A2289A257497A800DA3023 /* Loading.swift in Sources */,
 				F0A227C4256F799C00DA3023 /* PortfolioView.swift in Sources */,
 				F0A227C2256F799C00DA3023 /* StocksApp.swift in Sources */,
+				F0A228582574532D00DA3023 /* PortfolioVM.swift in Sources */,
 				F0A227F2256F90C000DA3023 /* SearchBar.swift in Sources */,
-				F0A2281A2570151900DA3023 /* Portfolio.swift in Sources */,
 				F0A2281F257020D600DA3023 /* Constants.swift in Sources */,
+				F0A228532573589500DA3023 /* Toast.swift in Sources */,
 				F0A228322571AB8F00DA3023 /* DetailVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,6 +494,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Stocks/Preview Content\"";
+				DEVELOPMENT_TEAM = HGMXT6WTUX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Stocks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -507,6 +516,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Stocks/Preview Content\"";
+				DEVELOPMENT_TEAM = HGMXT6WTUX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Stocks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -667,6 +677,14 @@
 				minimumVersion = 5.15.8;
 			};
 		};
+		F0A22846257347F800DA3023 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -689,6 +707,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F0A2283B25721E7A00DA3023 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = KingfisherSwiftUI;
+		};
+		F0A22847257347F800DA3023 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0A22846257347F800DA3023 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

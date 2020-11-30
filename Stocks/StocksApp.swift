@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct StocksApp: App {
-    var body: some Scene {
-        WindowGroup {
-            PortfolioView()
-        }
+  
+    @ObservedObject var Portfolio: PortfolioVM = PortfolioVM()
+    @State var isLoading: Bool = true
+    var body: some Scene{
+        
+            WindowGroup {
+                PortfolioView(Portfolio: Portfolio)
+            }
     }
 }

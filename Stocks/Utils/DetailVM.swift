@@ -1,10 +1,3 @@
-//
-//  DetailVM.swift
-//  Stocks
-//
-//  Created by Ankita Gupta on 27/11/20.
-//
-
 import Foundation
 import SwiftyJSON
 import Alamofire
@@ -16,13 +9,16 @@ class DetailVM: ObservableObject {
     @Published var NewsItems: [News]
     @Published var Stats: Stat
     @Published var Abouts: About
+
     
     init(ticker: String){
         self.ticker = ticker
-        self.Highlights = Highlight(ticker : "ticker",name: "name",last: 0.00,change: 0.00)
-        self.Abouts = About(description: "description")
+        self.Highlights = Highlight(ticker : "Ticker",name: "Company Name",last: 0.00,change: 0.00)
+        self.Abouts = About(description: "Description")
         self.Stats = Stat(last: 0.0, open: 0.0, high: 0.0, low: 0.0, mid: 0.0, volume: 0, bidPrice: 0.0)
-        self.NewsItems = [News(title: "title", imgURL: "url", source: "source", URL: "url", content: "content")]
+        self.NewsItems = [News(title: "Title", imgURL: "url", source: "source", URL: "url", content: "Content", publishedAt: "December 3, 2020")]
+       
+     //   self.BookMarks = [BookMark(ticker: "Ticker", last: 0.0, change: 0.0, name:"name")]
     
     }
     
@@ -42,7 +38,6 @@ class DetailVM: ObservableObject {
                     )
                 
                 debugPrint("Highlights fetched!")
-                debugPrint(self.Highlights)
                 
             case .failure(let error):
                 print(error)
@@ -69,7 +64,6 @@ class DetailVM: ObservableObject {
                     )
                 
                 debugPrint("Stats fetched!")
-                debugPrint(self.Stats)
                 
             case .failure(let error):
                 print(error)
@@ -88,7 +82,6 @@ class DetailVM: ObservableObject {
                     description: json["description"].stringValue
                 )
                 debugPrint("About fetched!")
-                debugPrint(self.Abouts)
                 
             case .failure(let error):
                 print(error)
@@ -111,19 +104,21 @@ class DetailVM: ObservableObject {
                         imgURL: item["urlToImage"].stringValue,
                         source: item["source"]["name"].stringValue,
                         URL: item["url"].stringValue,
-                        content: item["content"].stringValue)
+                        content: item["content"].stringValue,
+                        publishedAt: item["publishedAt"].stringValue
+                    )
                     NewsPieces.append(newsObj)
                 }
                 self.NewsItems=NewsPieces
                 
                 debugPrint("News fetched!")
-                debugPrint(self.NewsItems)
                 
             case .failure(let error):
                 print(error)
             }
         }
     }
+
 }
 
 
@@ -152,7 +147,7 @@ struct About{
     var description: String
 }
 
-struct News: Hashable{
+struct News: Identifiable{
     
     var id = UUID()
     var title: String
@@ -160,8 +155,11 @@ struct News: Hashable{
     var source: String
     var URL: String
     var content: String
+    var publishedAt: String
     
 }
+
+
 
 
 
