@@ -24,9 +24,12 @@
 		F0A2283D25721E7A00DA3023 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2283C25721E7A00DA3023 /* Kingfisher */; };
 		F0A2283F25721E7A00DA3023 /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F0A2283E25721E7A00DA3023 /* KingfisherSwiftUI */; };
 		F0A22848257347F800DA3023 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = F0A22847257347F800DA3023 /* Toast */; };
-		F0A228532573589500DA3023 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228522573589500DA3023 /* Toast.swift */; };
 		F0A228582574532D00DA3023 /* PortfolioVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A228572574532D00DA3023 /* PortfolioVM.swift */; };
-		F0A2289A257497A800DA3023 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A22899257497A800DA3023 /* Loading.swift */; };
+		F0E80A0325758D8600818320 /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E80A0225758D8600818320 /* Debouncer.swift */; };
+		F0E80A082575A0EC00818320 /* TradeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E80A072575A0EC00818320 /* TradeSheet.swift */; };
+		F0E80A712578008A00818320 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E80A702578008A00818320 /* Toast.swift */; };
+		F0E80A8225786DB700818320 /* www in Resources */ = {isa = PBXBuildFile; fileRef = F0E80A8125786DB700818320 /* www */; };
+		F0E80A8725786F5E00818320 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E80A8625786F5E00818320 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,9 +68,12 @@
 		F0A2281E257020D600DA3023 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F0A228292570393700DA3023 /* DefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsStorage.swift; sourceTree = "<group>"; };
 		F0A228312571AB8F00DA3023 /* DetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVM.swift; sourceTree = "<group>"; };
-		F0A228522573589500DA3023 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		F0A228572574532D00DA3023 /* PortfolioVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioVM.swift; sourceTree = "<group>"; };
-		F0A22899257497A800DA3023 /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
+		F0E80A0225758D8600818320 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
+		F0E80A072575A0EC00818320 /* TradeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeSheet.swift; sourceTree = "<group>"; };
+		F0E80A702578008A00818320 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		F0E80A8125786DB700818320 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		F0E80A8625786F5E00818320 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,12 +129,15 @@
 		F0A227C0256F799C00DA3023 /* Stocks */ = {
 			isa = PBXGroup;
 			children = (
-				F0A228132570119D00DA3023 /* Utils */,
 				F0A227C1256F799C00DA3023 /* StocksApp.swift */,
 				F0A227C3256F799C00DA3023 /* PortfolioView.swift */,
 				F0A227FE256FA5E500DA3023 /* DetailView.swift */,
+				F0E80A072575A0EC00818320 /* TradeSheet.swift */,
 				F0A227C5256F799E00DA3023 /* Assets.xcassets */,
 				F0A227CA256F799E00DA3023 /* Info.plist */,
+				F0E80A8125786DB700818320 /* www */,
+				F0A228132570119D00DA3023 /* Utils */,
+				F0E80A6F2578007200818320 /* Toast */,
 				F0A227F0256F909000DA3023 /* SearchBar */,
 				F0A227C7256F799E00DA3023 /* Preview Content */,
 			);
@@ -166,6 +175,7 @@
 			children = (
 				F0A227F1256F90C000DA3023 /* SearchBar.swift */,
 				F0A227F9256F911400DA3023 /* ViewControllerResolver.swift */,
+				F0E80A0225758D8600818320 /* Debouncer.swift */,
 			);
 			name = SearchBar;
 			sourceTree = "<group>";
@@ -177,10 +187,17 @@
 				F0A228312571AB8F00DA3023 /* DetailVM.swift */,
 				F0A228572574532D00DA3023 /* PortfolioVM.swift */,
 				F0A2281E257020D600DA3023 /* Constants.swift */,
-				F0A228522573589500DA3023 /* Toast.swift */,
-				F0A22899257497A800DA3023 /* Loading.swift */,
+				F0E80A8625786F5E00818320 /* WebView.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F0E80A6F2578007200818320 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				F0E80A702578008A00818320 /* Toast.swift */,
+			);
+			name = Toast;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0E80A8225786DB700818320 /* www in Resources */,
 				F0A227C9256F799E00DA3023 /* Preview Assets.xcassets in Resources */,
 				F0A227C6256F799E00DA3023 /* Assets.xcassets in Resources */,
 			);
@@ -325,16 +343,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0E80A712578008A00818320 /* Toast.swift in Sources */,
 				F0A227FA256F911400DA3023 /* ViewControllerResolver.swift in Sources */,
+				F0E80A8725786F5E00818320 /* WebView.swift in Sources */,
 				F0A2282A2570393700DA3023 /* DefaultsStorage.swift in Sources */,
 				F0A227FF256FA5E500DA3023 /* DetailView.swift in Sources */,
-				F0A2289A257497A800DA3023 /* Loading.swift in Sources */,
 				F0A227C4256F799C00DA3023 /* PortfolioView.swift in Sources */,
+				F0E80A082575A0EC00818320 /* TradeSheet.swift in Sources */,
 				F0A227C2256F799C00DA3023 /* StocksApp.swift in Sources */,
 				F0A228582574532D00DA3023 /* PortfolioVM.swift in Sources */,
 				F0A227F2256F90C000DA3023 /* SearchBar.swift in Sources */,
 				F0A2281F257020D600DA3023 /* Constants.swift in Sources */,
-				F0A228532573589500DA3023 /* Toast.swift in Sources */,
+				F0E80A0325758D8600818320 /* Debouncer.swift in Sources */,
 				F0A228322571AB8F00DA3023 /* DetailVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

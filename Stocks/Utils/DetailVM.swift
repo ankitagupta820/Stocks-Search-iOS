@@ -9,6 +9,10 @@ class DetailVM: ObservableObject {
     @Published var NewsItems: [News]
     @Published var Stats: Stat
     @Published var Abouts: About
+    @Published var Owned: Float
+    @Published var isOwned: Bool
+    
+    @Published var isLoading: Bool = true
 
     
     init(ticker: String){
@@ -17,9 +21,23 @@ class DetailVM: ObservableObject {
         self.Abouts = About(description: "Description")
         self.Stats = Stat(last: 0.0, open: 0.0, high: 0.0, low: 0.0, mid: 0.0, volume: 0, bidPrice: 0.0)
         self.NewsItems = [News(title: "Title", imgURL: "url", source: "source", URL: "url", content: "Content", publishedAt: "December 3, 2020")]
-       
-     //   self.BookMarks = [BookMark(ticker: "Ticker", last: 0.0, change: 0.0, name:"name")]
+        self.Owned = 0.0
+        self.isOwned = false
     
+    }
+    
+    func getOwnedStocks(){
+        
+        let Purchases:[String: [String: Any]] = DefaultsStorage.getPurchases()
+        
+        if let stock: [String: Any] = Purchases[self.ticker]{
+            self.Owned = stock["qty"] as! Float
+            self.isOwned = true
+            
+        }else{
+            self.Owned = 0.0
+            self.isOwned = false
+        }
     }
     
     func fetchHighlight(){
@@ -110,7 +128,7 @@ class DetailVM: ObservableObject {
                     NewsPieces.append(newsObj)
                 }
                 self.NewsItems=NewsPieces
-                
+                self.isLoading = false
                 debugPrint("News fetched!")
                 
             case .failure(let error):

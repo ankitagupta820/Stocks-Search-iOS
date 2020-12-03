@@ -1,12 +1,13 @@
-//
+
 //  Toast.swift
-//  Stocks
+//  Demo
 //
-//  Created by Ankita Gupta on 28/11/20.
+//  Created by Ankita Gupta on 02/12/20.
 //
 
 import Foundation
 import SwiftUI
+import SwiftOverlayShims
 
 struct Toast<Presenting, Content>: View where Presenting: View, Content: View {
     @Binding var isPresented: Bool
@@ -31,7 +32,7 @@ struct Toast<Presenting, Content>: View where Presenting: View, Content: View {
                     Capsule()
                         .fill(Color.gray)
 
-                    self.content()
+                    self.content().foregroundColor(Color.white)
                 } //ZStack (inner)
                 .frame(width: geometry.size.width / 1.25, height: geometry.size.height / 10)
                 .opacity(self.isPresented ? 1 : 0)
@@ -39,4 +40,4 @@ struct Toast<Presenting, Content>: View where Presenting: View, Content: View {
             .padding(.bottom)
         } //GeometryReader
     } //body
-}
+} //Toast

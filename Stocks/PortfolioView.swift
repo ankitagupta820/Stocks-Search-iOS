@@ -3,38 +3,58 @@ import SwiftUI
 
 struct PortfolioView: View {
 
+   
     @State var isLoading: Bool = true
+    @State var showSearchResults:Bool = false
     //Passed from parent View
-    @ObservedObject var Portfolio: PortfolioVM
+    @ObservedObject var PortfolioVM: PortfolioVM
     @State var BookMarkArray: [String] = []
     @State var BookMarks: [String: String] = [:]
     @State var PurchasesArray: [String] = []
     @State var Purchases: [String: [String: Any]] = [:]
 
     @ObservedObject var searchBar: SearchBar = SearchBar()
-    @State private var isEditable = false
+    @Environment(\.openURL) var openURL
+    
+  //  var tickers=["AAPL": "Apple Inc.", "IBM": "International Business", "AMZN": "Amazon"]
     
     init(Portfolio: PortfolioVM){
         
-        self.Portfolio=Portfolio
-        debugPrint("Portfolio View init()")
+        self.PortfolioVM=Portfolio
         
     }
+    
     var body: some View {
         
-        if self.Portfolio.isLoading {
+        if self.PortfolioVM.isLoading {
+            
             Loading
             .onAppear(
                 perform: {
                     //DefaultsStorage.addDummy()
-                    Portfolio.fetchPortfolio()
-                    debugPrint("Portfolio on appear")
+                    debugPrint("|------Fetching Portfolio data-----|")
+                    PortfolioVM.fetchPortfolio()
             })
         }else{
+            
+//            if !Portfolio.autoComplete.isEmpty{
+//                List {
+//                    ForEach(
+//                        tickers.keys.filter {searchBar.text.isEmpty || $0.localizedStandardContains(searchBar.text)},id: \.self) { stock in
+//                        NavigationLink(destination: DetailView(ticker: stock , Portfolio: Portfolio, Data: DetailVM(ticker: stock))){
+//                            VStack(alignment: .leading){
+//                                Text(stock).bold()
+//                                Text(tickers[stock]!).foregroundColor(.secondary)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+            
             Content
-            Link("Powered by Tingoo", destination: URL(string: "https://api.tiingo.com/")!)
-                .foregroundColor(.secondary)
-                .padding()
+                .onDisappear(perform: {
+                    
+                })
         }
     }
             
@@ -44,98 +64,100 @@ var Loading: some View {
 }
     
 var Content: some View {
-
     NavigationView{
-        List{
-            let date: String = getDate()
-            Text(date).font(.title).foregroundColor(.secondary).bold()
-            
-            Section(header: Text("Portfolio")){
-                            VStack(alignment: .leading){
-                                Text("Net Worth").font(.title)
-                                Text("271.98").font(.title).foregroundColor(.primary).bold()
-                            }
-                            ForEach(self.Portfolio.PurchasesState, id: \.self){ purchase in
-                                let stockDict: [String: Any] = self.Portfolio.Purchases[purchase]!
-                                let portfolioDict: portfolio = self.Portfolio.PortfolioData[purchase]!
-                                NavigationLink(destination: DetailView(ticker: purchase , Portfolio: Portfolio, Data: DetailVM(ticker: purchase))){
-                                    HStack{
-                                        VStack(alignment: .leading){
-                                            Text(purchase).font(.title2).bold()
-                                            Text(String(format: "%.2f shares", stockDict["qty"] as! Float)).foregroundColor(.secondary)
-                                        }
-                                        Spacer()
-                                        VStack(alignment: .trailing){
-                                            Text(String(format: "%.2f", portfolioDict.last)).font(.title2).bold()
-                                            HStack{
-                                                Image(systemName: portfolioDict.change < 0 ? "arrow.down.right" : "line.diagonal.arrow" )
-                                                Text(String(format: "%.2f", portfolioDict.change))
-                                            }.foregroundColor(portfolioDict.change < 0 ? .red : .green)
+            List{
+                let date: String = getDate()
+                Text(date).font(.title).foregroundColor(.secondary).bold()
+                
+                Section(header: Text("Portfolio")){
+                                VStack(alignment: .leading){
+                                    Text("Net Worth").font(.title)
+                                    Text("\(PortfolioVM.NetWorth, specifier:"%.2f")").font(.title).foregroundColor(.primary).bold()
+                                }
+                                ForEach(self.PortfolioVM.PurchasesState, id: \.self){ purchase in
+                                    let stockDict: [String: Any] = self.PortfolioVM.Purchases[purchase]!
+                                    let portfolioDict: portfolio = self.PortfolioVM.PortfolioData[purchase]!
+                                    NavigationLink(destination: DetailView(ticker: purchase , PortfolioVM: PortfolioVM, DetailVM: DetailVM(ticker: purchase))){
+                                        HStack{
+                                            VStack(alignment: .leading){
+                                                Text(purchase).font(.title2).bold()
+                                                Text(String(format: "%.2f shares", stockDict["qty"] as! Float)).foregroundColor(.secondary)
+                                            }
+                                            Spacer()
+                                            VStack(alignment: .trailing){
+                                                Text(String(format: "%.2f", portfolioDict.last)).font(.title2).bold()
+                                                HStack{
+                                                    Image(systemName: portfolioDict.change < 0 ? "arrow.down.right" : "line.diagonal.arrow" )
+                                                    Text(String(format: "%.2f", portfolioDict.change))
+                                                }.foregroundColor(portfolioDict.change < 0 ? .red : .green)
+                                            }
                                         }
                                     }
-                                }
-                            }.onMove(perform: movePurchase)
-//                            .onLongPressGesture {
-//                                            withAnimation {
-//                                                self.isEditable = true
-//                                            }
-//                                        }
-                        }
+                                }.onMove(perform: movePurchase)
+                            }
 
-            Section(header: Text("Favorites")){
-                ForEach(self.Portfolio.BookMarkState, id: \.self){stock in
+                Section(header: Text("Favorites")){
+                    ForEach(self.PortfolioVM.BookMarkState, id: \.self){favourite in
+                        
+                        let bookmark: String = self.PortfolioVM.BookMarks[favourite]!
+                        let portfolioDict: portfolio = self.PortfolioVM.PortfolioData[favourite] ?? portfolio(ticker: "nil", last: 0.00, change: 1.0)
+                        let isPurchased:Bool = self.PortfolioVM.PurchasesState.contains(favourite)
+                     
+                        NavigationLink(destination: DetailView(ticker: favourite, PortfolioVM: PortfolioVM, DetailVM: DetailVM(ticker: favourite))){
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text(favourite).font(.title2).bold()
+                                    if isPurchased{
+                                        let purchaseDict: [String: Any] = self.PortfolioVM.Purchases[favourite]!
+                                        Text(String(format: "%.2f shares", purchaseDict["qty"] as! Float)).foregroundColor(.secondary)
+                                    }else{
+                                        Text(bookmark).foregroundColor(.secondary)
+                                    }
+                                }
+                                Spacer()
+                                VStack(alignment: .trailing){
+                                    Text(String(format: "%.2f", portfolioDict.last)).font(.title2).bold()
+                                    HStack{
+                                            Image(systemName: portfolioDict.change < 0 ? "arrow.down.right" : "line.diagonal.arrow" )
+                                            Text(String(format: "%.2f", portfolioDict.change))
+                                        }.foregroundColor(portfolioDict.change < 0 ? .red : .green)
+                                    }
+                                }
+                    }
+                    }
                     
-                    let bookmark: String = self.Portfolio.BookMarks[stock]!
-                    let pDict: portfolio = self.Portfolio.PortfolioData[stock] ?? portfolio(ticker: "nil", last: 0.00, change: 1.0)
-                    NavigationLink(destination: DetailView(ticker: stock, Portfolio: Portfolio, Data: DetailVM(ticker: stock))){
-                        HStack{
-                            VStack(alignment: .leading){
-                                Text(stock).font(.title2).bold()
-                                Text(bookmark).foregroundColor(.secondary)
-                            }
-                            Spacer()
-                            VStack(alignment: .trailing){
-                                Text(String(format: "%.2f", pDict.last)).font(.title2).bold()
-                                HStack{
-                                        Image(systemName: pDict.change < 0 ? "arrow.down.right" : "line.diagonal.arrow" )
-                                        Text(String(format: "%.2f", pDict.change))
-                                    }.foregroundColor(pDict.change < 0 ? .red : .green)
-                                }
-                            }
-                                            
+                    .onMove(perform:movefavourite)
+                    .onDelete(perform: deletefavourite)
+                    Spacer()
                 }
+                HStack{
+                    Spacer()
+                    Button("Powered by Tingoo") {
+                        openURL(URL(string: "https://api.tiingo.com/")!)
+                    }.foregroundColor(.secondary)
+                    Spacer()
                 }
-                .onMove(perform:movefavourite)
-                .onDelete(perform: deletefavourite)
-//                .onLongPressGesture {
-//                                withAnimation {
-//                                    self.isEditable = true
-//                                }
-//                            }
             }
-           
-        }
-        .navigationTitle(Text("Stocks"))
-        .toolbar{
+            .navigationTitle(Text("Stocks"))
+            .toolbar{
             EditButton()
-        }
-        .add(self.searchBar)
+            }
+            .add(self.searchBar)
     }
-
+    
 }
-
 
 
 func movefavourite(from: IndexSet, to: Int){
-    Portfolio.reorder(type: "BOOKMARKS_ARRAY", source: from, destination: to )
+    PortfolioVM.reorder(type: "BOOKMARKS_ARRAY", source: from, destination: to )
 }
     
 func movePurchase(from: IndexSet, to: Int){
-    Portfolio.reorder(type: "PURCHASES_ARRAY", source: from, destination: to )
+    PortfolioVM.reorder(type: "PURCHASES_ARRAY", source: from, destination: to )
 }
     
 func deletefavourite(offsets: IndexSet){
-    self.Portfolio.deleteBookMark(offset: offsets)
+    self.PortfolioVM.deleteBookMark(offset: offsets)
 }
 
     

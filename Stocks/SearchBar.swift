@@ -27,7 +27,9 @@ extension SearchBar: UISearchResultsUpdating {
         
         // Publish search bar text changes.
         if let searchBarText = searchController.searchBar.text {
-            self.text = searchBarText
+            if(searchBarText.count >= 3){
+                self.text = searchBarText
+            }
         }
     }
 }

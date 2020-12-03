@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name='viewport'
+        content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+
+    <title>Local Website</title>
+    <style>
+        #Chart{
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="Chart"></div>
+    
+    <script type="text/javascript">
+
+        function fetchChart(ticker) {
+
+            let URL = "http://stocks.us-east-1.elasticbeanstalk.com/charts/" + ticker;
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", URL, true);
+            xhr.onreadystatechange = function (ev) {
+                if (xhr.readyState == 4) {
+                    switch (xhr.status) {
+                        case 200: {
+                            data = JSON.parse(xhr.responseText);
+                            console.log(data)
+                            renderCharts(ticker, data)
+                            break;
+                        }
+                        default:
+                            console.log(xhr.status + " HTTP Error Occured!! ");
+                    }
+                }
+            };
+            xhr.onerror = function (err) {
+                console.warn(err);
+            };
+            xhr.send(null);
+        }
+
+    
+        function renderCharts(ticker, data) {
+            Chart = document.getElementById("Chart");
+
+            var title = "Stock Price " + ticker
+
+            var chartOptions = {
+                rangeSelector: {
+                    selected: 2,
+                },
+
+                yAxis: [
+                    {
+                        startOnTick: false,
+                        endOnTick: false,
+                        labels: {
+                            align: 'right',
+                            x: -3,
+                        },
+                        title: {
+                            text: 'OHLC',
+                        },
+                        height: '60%',
+                        lineWidth: 2,
+                        resize: {
+                            enabled: true,
+                        },
+                    },
+                    {
+                        labels: {
+                            align: 'right',
+                            x: -3,
+                        },
+                        title: {
+                            text: 'Volume',
+                        },
+                        top: '65%',
+                        height: '35%',
+                        offset: 0,
+                        lineWidth: 2,
+                    },
+                ],
+
+                tooltip: {
+                    split: true,
+                },
+
+                plotOptions: {
+                    series: {
+                        dataGrouping: {
+                            units: [
+                                ['millisecond', [1, 2, 5, 10, 20, 25, 50, 100, 200, 500]],
+                                ['second', [1, 2, 5, 10, 15, 30]],
+                                ['minute', [1, 2, 5, 10, 15, 30]],
+                                ['hour', [1, 2, 3, 4, 6, 8, 12]],
+                                ['day', [1]],
+                                ['week', [1]],
+                                ['month', [1, 3, 6]],
+                                ['year', null],
+                            ],
+                        },
+                    },
+                },
+
+                series: [
+                    {
+                        type: 'candlestick',
+                        name: ticker,
+                        id: ticker,
+                        zIndex: 2,
+                        data: data.OHLC
+                    },
+                    {
+                        type: 'column',
+                        name: 'Volume',
+                        id: 'volume',
+                        yAxis: 1,
+                        data: data.Volume
+                    },
+                    {
+                        type: 'vbp',
+                        params: {
+                            volumeSeriesID: 'volume',
+                        },
+                        dataLabels: {
+                            enabled: false,
+                        },
+                        zoneLines: {
+                            enabled: false,
+                        },
+                        linkedTo: ticker
+                    },
+                    {
+                        type: 'sma',
+                        zIndex: 1,
+                        marker: {
+                            enabled: false,
+                        },
+                        linkedTo: ticker
+                    },
+                ],
+            };
+
+            Highcharts.stockChart("Chart", chartOptions);
+        }
+
+    </script>
+</body>
+
+</html>

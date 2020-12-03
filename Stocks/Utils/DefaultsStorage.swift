@@ -90,16 +90,19 @@ class DefaultsStorage{
     }
     
  
-    
-
-    
-    
-    
-    
+    //Balance
     static func initBalance(){
         
         let defaults = UserDefaults.standard
-        defaults.set(20000, forKey: "BALANCE")
+        let dictionary = defaults.dictionaryRepresentation()
+        if !dictionary.keys.contains("BALANCE"){
+            defaults.set(20000, forKey: "BALANCE")
+        }
+        
+//        dictionary.keys.forEach { key in
+//                defaults.removeObject(forKey: key)
+//            }
+       
     }
     
     static func getBalance()->Float{
@@ -116,29 +119,15 @@ class DefaultsStorage{
         
     }
     
-    
-    static func getWorth()->Float{
-        
-        let defaults = UserDefaults.standard
-        return defaults.float(forKey: "WORTH") 
-        
-        
-    }
-    
-    static func setWorth(value: Float){
-        
-        let defaults = UserDefaults.standard
-        defaults.set(value, forKey: "WORTH")
-        
-    }
+
     
     
     
     //Portfolio
-    static func getPurchases()-> [String: [String: String]]{
+    static func getPurchases()-> [String: [String: Any]]{
         
         let defaults = UserDefaults.standard
-        let Portfolio: [String: [String: String]] = defaults.dictionary(forKey: "PURCHASES") as? [String: [String: String]] ?? [:]
+        let Portfolio: [String: [String: Any]] = defaults.dictionary(forKey: "PURCHASES") as? [String: [String: Any]] ?? [:]
         
         return Portfolio
     }
@@ -152,19 +141,20 @@ class DefaultsStorage{
     }
 
     
-    static func buy(ticker: String, name: String, qty: Float, price: Float)-> Bool{
+    static func buy(ticker: String, name: String, qty: Float, price: Float){
         
         let defaults = UserDefaults.standard
-        var Portfolio: [String: [String: Any]] = defaults.dictionary(forKey: "PORTFOLIO") as? [String: [String: Any]] ?? [:]
-        
-        if let stock:[String: Any] = Portfolio[ticker]{
+        var Purchases: [String: [String: Any]] = getPurchases()
+        var PurchasesArray: [String] = getPurchasesStateArray()
+          
+        if let stock:[String: Any] = Purchases[ticker]{
             
             let Quantity:Float = stock["qty"] as! Float + qty
             let Price:Float = stock["price"] as! Float + price*qty
             let Name:String = name
             
             let stock:[String: Any] = ["qty": Quantity, "price": Price, "name": Name]
-            Portfolio[ticker] = stock
+            Purchases[ticker] = stock
             
         }else{
             
@@ -173,45 +163,60 @@ class DefaultsStorage{
             let Name:String = name
             
             let stock:[String: Any] = ["qty": Quantity, "price": Price, "name": Name]
-            Portfolio[ticker] = stock
+            Purchases[ticker] = stock
+            PurchasesArray.append(ticker)
             
         }
         
-        defaults.set(Portfolio, forKey: "PORTFOLIO")
-        return true
-        
+        let NewBalance = getBalance() - price*qty
+        setBalance(value: NewBalance)
+        defaults.set(Purchases, forKey: "PURCHASES")
+        defaults.set(PurchasesArray, forKey: "PURCHASES_ARRAY")
+    
     }
     
     
-    static func sell(ticker: String, qty: Float, name: String)->Bool{
+    static func sell(ticker: String, qty: Float, price: Float){
         
         let defaults = UserDefaults.standard
-        var Portfolio: [String: [String: Any]] = defaults.dictionary(forKey: "PORTFOLIO") as? [String: [String: Any]] ?? [:]
         
-        if let stock:[String: Any] = Portfolio[ticker]{
+        var Purchases: [String: [String: Any]] = getPurchases()
+        var PurchasesArray: [String] = getPurchasesStateArray()
+        
+        if let stock:[String: Any] = Purchases[ticker]{
+            
+            let Name: String = stock["name"] as! String
+            let Price:Float = stock["price"] as! Float
+            let Quantity:Float = stock["qty"] as! Float
             
             let leftQty = stock["qty"] as! Float - qty
+            
             if leftQty.isZero{
                 
-                Portfolio.removeValue(forKey: ticker)
+                Purchases.removeValue(forKey: ticker)
+                if let index = PurchasesArray.firstIndex(of: ticker) {
+                    PurchasesArray.remove(at: index)
+                }
             
             }else{
-                let Price:Float = stock["price"] as! Float
-                let Quantity:Float = stock["qty"] as! Float
+                
                 let Avg:Float =  Price / Quantity
                 
                 let NewQuantity = leftQty
                 let NewPrice = Price - qty*Avg
-                let Name:String = name
+                //let Name:String = name
                 
                 let stock:[String: Any] = ["qty": NewQuantity, "price": NewPrice, "name": Name]
-                Portfolio[ticker] = stock
+                Purchases[ticker] = stock
                 
             }
             
-            defaults.set(Portfolio, forKey: "PORTFOLIO")
-            return true
+            let NewBalance = getBalance() + price*qty
+            setBalance(value: NewBalance)
+            defaults.set(Purchases, forKey: "PURCHASES")
+            defaults.set(PurchasesArray, forKey: "PURCHASES_ARRAY")
+           
         }
-        return false
+       
     }
 }
