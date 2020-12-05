@@ -11,7 +11,7 @@ import SwiftUI
 struct StocksApp: App {
   
     @ObservedObject var Portfolio: PortfolioVM = PortfolioVM()
-    @State var isLoading: Bool = true
+   
     var body: some Scene{
        
             WindowGroup {

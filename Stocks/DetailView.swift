@@ -47,8 +47,6 @@ struct DetailView: View {
                         self.DetailVM.isLoading=true
                 })
         }
-        
-       
     }
     
     var Loading: some View {
@@ -78,9 +76,8 @@ struct DetailView: View {
                                    else {
                                        print("Rendered Chart!")
                                    }
-                               }.frame(height: 350)
+                               }.frame(height: 400)
             }
-           
             
             //Portfolio Section
             VStack(alignment:.leading){
@@ -162,10 +159,11 @@ struct DetailView: View {
             
             
             //News Section
+            
             let NewsList: [News] = DetailVM.NewsItems
             let firstNews = NewsList[0]
             let remainingNews = NewsList.dropFirst(1)
-
+            
             VStack(){
                     VStack(alignment: .leading){
                         Text("News").font(.title)
@@ -173,7 +171,7 @@ struct DetailView: View {
                         Divider()
                     }
                 }
-            
+           
             VStack{
                    ForEach(remainingNews){news in
                             HStack(){
@@ -186,9 +184,11 @@ struct DetailView: View {
                                 }
                                 Spacer()
                                 KFImage(URL(string: news.imgURL)!)
-                                            .resizable()
-                                            .frame(width: 100, height: 100)
-                                            .cornerRadius(20)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipped()
+                                    .frame(width: 100, height: 100)
+                                    .cornerRadius(20)
                             }.background(Color.white)
                             .contentShape(RoundedRectangle(cornerRadius: 20))
                             .contextMenu(menuItems: {
@@ -246,10 +246,14 @@ struct PrimaryNews: View{
     
     var news: News
     var body: some View{
-        VStack{
+        VStack(alignment: .leading){
             KFImage(URL(string: news.imgURL)!)
                 .resizable()
-                .frame(height: 250)
+                .aspectRatio(contentMode: .fill)
+                .frame(maxWidth: .infinity,maxHeight: 250)
+                .clipped()
+//                .resizable()
+//                .frame(height: 250)
                 .cornerRadius(20)
             HStack(){
                 Text(news.source).foregroundColor(.secondary)

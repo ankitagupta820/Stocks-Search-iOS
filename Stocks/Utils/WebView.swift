@@ -24,6 +24,8 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView()
         view.navigationDelegate = context.coordinator
+        view.scrollView.bounces = false
+        view.scrollView.isScrollEnabled=false
         if let url = Bundle.main.url(forResource: "LocalWebsite", withExtension: "html", subdirectory: "www") {
                         view.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
         }
@@ -52,15 +54,11 @@ struct WebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             
-            print(parent.ticker)
             let javascriptFunction = "fetchChart('\(parent.ticker)');"
                           webView.evaluateJavaScript(javascriptFunction) { (response, error) in
                               if let error = error {
                                   print("Error calling javascript:valueGotFromIOS()")
                                   print(error.localizedDescription)
-                                print()
-                              } else {
-                                  print("Called javascript:valueGotFromIOS()")
                               }
                           }
             parent.loadStatusChanged?(false, nil)

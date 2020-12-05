@@ -15,7 +15,6 @@ public class Debouncer {
         self.delay = delay
     }
 
-    /// Trigger the action after some delay
     public func run(action: @escaping () -> Void) {
         workItem?.cancel()
         workItem = DispatchWorkItem(block: action)

@@ -2,16 +2,17 @@ import Foundation
 
 class DefaultsStorage{
 
-    static func addDummy(){
+    static func reset(){
+        
         let defaults = UserDefaults.standard
-        let Bookmarks = ["AAPL" : "Apple Inc."]
-        let BookmarksArray = ["AAPL"]
-   
-        defaults.set(Bookmarks, forKey: "BOOKMARKS")
-        defaults.set(BookmarksArray, forKey: "BOOKMARKS_ARRAY")
+        defaults.removeObject(forKey: "PURCHASES_ARRAY")
+        defaults.removeObject(forKey: "PURCHASES")
+        defaults.removeObject(forKey: "BOOKMARKS")
+        defaults.removeObject(forKey: "BOOKMARKS_ARRAY")
+        defaults.set(20000, forKey: "BALANCE")
+        
     }
     
-  
     // functions on Edit button in portfolio section
     static func reorder(category: String, source: IndexSet, destination: Int){
         
@@ -93,16 +94,13 @@ class DefaultsStorage{
     //Balance
     static func initBalance(){
         
+       // reset()
+        
         let defaults = UserDefaults.standard
         let dictionary = defaults.dictionaryRepresentation()
         if !dictionary.keys.contains("BALANCE"){
             defaults.set(20000, forKey: "BALANCE")
         }
-        
-//        dictionary.keys.forEach { key in
-//                defaults.removeObject(forKey: key)
-//            }
-       
     }
     
     static func getBalance()->Float{
