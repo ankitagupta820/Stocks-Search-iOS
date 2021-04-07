@@ -1,4 +1,4 @@
-# Stock Application for iOS Devices
+# Stocks (iOS Application)
 
 ## :pushpin: Features
 * Searching Stocks using Ticker Symbols or Company Names with a fully functional autocomplete feature.<br/>
